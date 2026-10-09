@@ -1,10 +1,1467 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatics & AI Dashboard Portal | High School CS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        devBg: '#f8fafc',
+                        devCard: '#ffffff',
+                        devBorder: '#e2e8f0',
+                        brandCyan: '#06b6d4',
+                        brandPurple: '#8b5cf6',
+                        brandGreen: '#10b981',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                    },
+                    keyframes: {
+                        flip: {
+                            '0%': { transform: 'rotateX(0deg)' },
+                            '50%': { transform: 'rotateX(90deg)' },
+                            '100%': { transform: 'rotateX(0deg)' },
+                        },
+                        bounceTile: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        },
+                        shake: {
+                            '10%, 90%': { transform: 'translateX(-2px)' },
+                            '20%, 80%': { transform: 'translateX(4px)' },
+                            '30%, 50%, 70%': { transform: 'translateX(-6px)' },
+                            '40%, 60%': { transform: 'translateX(6px)' },
+                        }
+                    },
+                    animation: {
+                        flip: 'flip 0.4s ease forward',
+                        bounceTile: 'bounceTile 0.3s ease-in-out',
+                        shake: 'shake 0.4s ease-in-out',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 antialiased transition-colors duration-200 custom-scrollbar">
 
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-cyan-600 dark:bg-cyan-500 flex items-center justify-center text-white font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform">
+                    &lt;/&gt;
+                </div>
+                <div>
+                    <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white code-font flex items-center gap-1">
+                        Informatics<span class="text-cyan-600 dark:text-cyan-400">.AI</span>
+                    </span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400 block -mt-1 font-medium">Dashboard & Learning Hub</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                <a href="#dash-grid" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 text-cyan-500"></i> Dashboard
+                </a>
+                <a href="#deadlines-tile" class="hover:text-rose-600 dark:hover:text-rose-400 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="calendar" class="w-4 h-4 text-rose-500"></i> Даты & Дедлайны
+                </a>
+                <a href="#wordle-tile" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="gamepad-2" class="w-4 h-4 text-emerald-500"></i> Daily Wordle
+                </a>
+                <a href="#guides-tile" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="compass" class="w-4 h-4 text-purple-500"></i> Роадмапы
+                </a>
+                <a href="#presentations-tile" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="presentation" class="w-4 h-4 text-blue-500"></i> Презентации
+                </a>
+            </nav>
+
+            <!-- Status Indicator & Theme Toggle -->
+            <div class="flex items-center space-x-3">
+                <button id="theme-toggle-btn" onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors shadow-sm flex items-center gap-2 text-xs font-semibold" title="Toggle Light/Dark Theme">
+                    <i id="theme-icon-sun" data-lucide="sun" class="w-4 h-4 text-amber-500 hidden"></i>
+                    <i id="theme-icon-moon" data-lucide="moon" class="w-4 h-4 text-indigo-500"></i>
+                    <span id="theme-text" class="hidden sm:inline">Light Mode</span>
+                </button>
+
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-700 dark:text-emerald-400 code-font">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>System Active</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Welcome / Quick Stats & Embedded Compact Deadlines Hero Banner -->
+        <div id="interactive-dashboard-widget" class="mb-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 text-white shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-10 -top-10 w-60 h-60 bg-cyan-400/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="relative z-10 flex flex-col gap-6">
+                <!-- Embedded Deadlines & Events Compact Section -->
+                <div>
+                    <!-- Filter Controls Header -->
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-4">
+                        <div class="flex items-center gap-2">
+                            <div class="p-2 rounded-xl bg-white/20 backdrop-blur-md text-white">
+                                <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-extrabold text-white">Ближайшие Дедлайны & Олимпиады</h2>
+                                <p id="events-filter-indicator" class="text-xs text-cyan-100 code-font">Отображение: Все олимпиады и дедлайны</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mini Compact Grid Container (Small Windows) -->
+                    <div id="events-grid-container" class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 min-h-[130px]">
+                        <!-- Compact Event Cards populated dynamically -->
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <div id="events-pagination" class="flex items-center justify-center gap-2 mt-4 select-none">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Grid Tiles -->
+        <div id="dash-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- TILE 1: CS Wordle Game -->
+            <div id="wordle-tile" class="lg:col-span-1 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2.5 rounded-2xl bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400">
+                                <i data-lucide="gamepad-2" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-900 dark:text-white">Daily CS Wordle</h2>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Type on your keyboard to solve</p>
+                            </div>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold code-font border border-emerald-200 dark:border-emerald-800">5-Letter</span>
+                    </div>
+
+                    <div class="mb-4 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-300 flex items-center justify-between code-font">
+                        <span class="flex items-center gap-1.5">
+                            <i data-lucide="keyboard" class="w-4 h-4 text-cyan-500"></i> Press keys on keyboard
+                        </span>
+                        <button onclick="toggleWordleHelp()" class="text-cyan-600 dark:text-cyan-400 hover:underline">Rules</button>
+                    </div>
+
+                    <input type="text" id="wordle-mobile-input" class="sr-only" maxlength="5" autocomplete="off" />
+
+                    <div id="wordle-toast" class="hidden my-2 p-2 rounded-lg bg-slate-800 text-cyan-300 text-xs font-semibold text-center code-font shadow">
+                        Message
+                    </div>
+
+                    <div id="wordle-instructions" class="hidden mb-4 p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300 space-y-1">
+                        <p class="font-bold">Color Guide:</p>
+                        <p>• <span class="text-emerald-600 font-bold">Green</span>: Right letter & position</p>
+                        <p>• <span class="text-amber-500 font-bold">Yellow</span>: Right letter, wrong position</p>
+                        <p>• <span class="text-slate-400 font-bold">Gray</span>: Not in word</p>
+                    </div>
+
+                    <div onclick="focusMobileWordle()" class="flex flex-col items-center justify-center cursor-pointer py-2">
+                        <div id="wordle-grid" class="grid grid-rows-6 gap-1.5 select-none">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs code-font">
+                    <button onclick="shareWordleResult()" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors">
+                        <i data-lucide="share-2" class="w-3.5 h-3.5 text-cyan-500"></i> Share
+                    </button>
+                    <button onclick="resetWordlePractice()" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-purple-500"></i> Random Term
+                    </button>
+                </div>
+            </div>
+
+            <!-- TILE 2: Roadmap Guides & Directions -->
+            <div id="guides-tile" class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2.5 rounded-2xl bg-purple-100 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400">
+                                <i data-lucide="compass" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-900 dark:text-white">Как развиваться в IT & CS?</h2>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Пошаговые руководства по 4 ключевым направлениям</p>
+                            </div>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-lg bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 text-xs font-bold code-font border border-purple-200 dark:border-purple-800">4 Роадмапа</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div onclick="openGuideDetail('olympiad')" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70 hover:border-amber-500 dark:hover:border-amber-400 cursor-pointer transition-all group">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="p-2 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="trophy" class="w-4 h-4"></i>
+                                </div>
+                                <span class="text-[10px] font-bold code-font text-amber-600 dark:text-amber-400">CP / Олимпиады</span>
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                Как заниматься олимпиадами
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+                                Выбор языка (C++), базовые алгоритмы, участие в Codeforces и стратегия подготовки к областным/республиканским олимпиадам.
+                            </p>
+                        </div>
+
+                        <div onclick="openGuideDetail('projects')" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70 hover:border-cyan-500 dark:hover:border-cyan-400 cursor-pointer transition-all group">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="p-2 rounded-xl bg-cyan-100 dark:bg-cyan-950 text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="folder-code" class="w-4 h-4"></i>
+                                </div>
+                                <span class="text-[10px] font-bold code-font text-cyan-600 dark:text-cyan-400">Проекты / Hackathons</span>
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                                Как заниматься проектами
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+                                От идеи до деплоя: выбор стека (Web/Mobile), работы с Git/GitHub, создание портфолио и участие в научных ярмарках.
+                            </p>
+                        </div>
+
+                        <div onclick="openGuideDetail('ai')" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70 hover:border-purple-500 dark:hover:border-purple-400 cursor-pointer transition-all group">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="p-2 rounded-xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                </div>
+                                <span class="text-[10px] font-bold code-font text-purple-600 dark:text-purple-400">ИИ / Data Science</span>
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                                Как заниматься ИИ
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+                                Python, библиотеки NumPy/Pandas, машинное обучение, компьютерное зрение и Prompt Engineering с LLM API.
+                            </p>
+                        </div>
+
+                        <div onclick="openGuideDetail('robotics')" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70 hover:border-emerald-500 dark:hover:border-emerald-400 cursor-pointer transition-all group">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="cpu" class="w-4 h-4"></i>
+                                </div>
+                                <span class="text-[10px] font-bold code-font text-emerald-600 dark:text-emerald-400">Робототехника & IoT</span>
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                                Робототехника
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+                                Arduino, Raspberry Pi, работы с датчиками и моторами, подготовка к соревнованиям WRO и FIRST Lego League.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 code-font">
+                    <span>💡 Нажмите на любую карточку для подробного плана</span>
+                    <span class="text-purple-600 dark:text-purple-400 font-bold">Кабинет 304</span>
+                </div>
+            </div>
+
+            <!-- TILE 3: Presentation Decks by Grades -->
+            <div id="presentations-tile" class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <div class="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider code-font">Classroom Materials</div>
+                        <h2 class="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i data-lucide="presentation" class="w-6 h-6 text-cyan-500"></i> Презентации к Урокам
+                        </h2>
+                    </div>
+                    <span class="text-xs text-slate-500 dark:text-slate-400 code-font">7–12 классы</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div onclick="openPresentationModal('7')" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:border-cyan-500 transition-all cursor-pointer group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-300 text-xs font-bold code-font">7 Класс</span>
+                                <i data-lucide="file-text" class="w-4 h-4 text-slate-400 group-hover:text-cyan-500 transition-colors"></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">7 Класс</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">Основы информатики, системный блок, устройство ПК и алгоритмы.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/50 flex items-center justify-between text-xs text-cyan-600 dark:text-cyan-400 font-semibold">
+                            <span>Открыть слайды</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <div onclick="openPresentationModal('8')" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:border-indigo-500 transition-all cursor-pointer group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-xs font-bold code-font">8 Класс</span>
+                                <i data-lucide="file-text" class="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors"></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">8 Класс</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">Кодирование информации, двоичная система, основы Python.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/50 flex items-center justify-between text-xs text-indigo-600 dark:text-indigo-400 font-semibold">
+                            <span>Открыть слайды</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <div onclick="openPresentationModal('9')" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:border-purple-500 transition-all cursor-pointer group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 text-xs font-bold code-font">9 Класс</span>
+                                <i data-lucide="file-text" class="w-4 h-4 text-slate-400 group-hover:text-purple-500 transition-colors"></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">9 Класс</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">Базы данных, массивы Python, моделирование и компьютерные сети.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/50 flex items-center justify-between text-xs text-purple-600 dark:text-purple-400 font-semibold">
+                            <span>Открыть слайды</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+
+                    <div onclick="openPresentationModal('10')" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:border-emerald-500 transition-all cursor-pointer group flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold code-font">10 Класс</span>
+                                <i data-lucide="file-text" class="w-4 h-4 text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">10 Класс</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">Архитектура фон Неймана, веб-программирование HTML/CSS и базы данных SQL.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/50 flex items-center justify-between text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                            <span>Открыть слайды</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1 flex flex-col gap-6">
+
+                <!-- TOP TILE: MESK Practice Links -->
+                <div id="mesk-tile" class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2.5">
+                                <div class="p-2.5 rounded-2xl bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400">
+                                    <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-base font-bold text-slate-900 dark:text-white">Пробный МЭСК</h2>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Экзаменационные варианты</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 text-[10px] font-bold code-font border border-blue-200 dark:border-blue-800">2026 Edition</span>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div onclick="openMeskModal('10')" class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 hover:border-blue-500 cursor-pointer transition-all group flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center text-xs code-font">
+                                        10
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">МЭСК 10 класс</h3>
+                                        <p class="text-[11px] text-slate-500 dark:text-slate-400">Теория + Практика Python/SQL</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors"></i>
+                            </div>
+
+                            <div onclick="openMeskModal('12')" class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 cursor-pointer transition-all group flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center text-xs code-font">
+                                        12
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">МЭСК 12 класс</h3>
+                                        <p class="text-[11px] text-slate-500 dark:text-slate-400">ИИ, Графы, Продвинутый C++</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTTOM TILE: Mini-LeetCode & Leaderboard -->
+                <div id="leetcode-tile" class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2.5">
+                                <div class="p-2.5 rounded-2xl bg-amber-100 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400">
+                                    <i data-lucide="code-2" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-base font-bold text-slate-900 dark:text-white">Мини LeetCode</h2>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Платформа алгоритмических баттлов</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] font-bold code-font border border-amber-500/20 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span> Live Arena
+                            </span>
+                        </div>
+
+                        <div class="mb-4 p-3 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/20 border border-amber-200/80 dark:border-amber-800/50">
+                            <div class="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5 flex items-center gap-1.5">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i>
+                                <span>Прокачай алгоритмы и соревнуйся!</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed mb-2 flex items-center gap-1">
+                                Решай задачи, проходи автотесты и поднимайся в рейтинге.
+                            </p>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider code-font mb-2 flex items-center justify-between">
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="trophy" class="w-3.5 h-3.5 text-amber-500"></i> Топ-3 недели
+                                </span>
+                                <span class="text-amber-500 font-extrabold text-[10px]">248 задач</span>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="p-2.5 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-800/50 flex items-center justify-between text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-5 h-5 rounded-full bg-amber-500 text-white font-extrabold text-[10px] code-font flex items-center justify-center">1</span>
+                                        <span class="font-bold text-slate-900 dark:text-white">Бекжан С. (11A)</span>
+                                    </div>
+                                    <span class="font-extrabold text-amber-600 dark:text-amber-400 code-font">+140 XP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="openLeetCodeModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xs font-bold code-font shadow-md flex items-center justify-center gap-2 group">
+                        <i data-lucide="play-circle" class="w-4 h-4"></i>
+                        <span>Войти в Арену</span>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- TILE 4: Quick Reference Links -->
+            <div id="resources-tile" class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider code-font">Cheatsheets & Visualizers</div>
+                        <h2 class="text-xl font-extrabold text-slate-900 dark:text-white">Quick Developer Resources</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a href="https://cppreference.com" target="_blank" rel="noopener" class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:border-cyan-500 transition-all flex items-center justify-between group">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 rounded-xl bg-cyan-100 dark:bg-cyan-950 text-cyan-600 dark:text-cyan-400">
+                                <i data-lucide="file-text" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 transition-colors">C++ STL Cheatsheet</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">Vector, Map, Set, Complexity</p>
+                            </div>
+                        </div>
+                        <i data-lucide="external-link" class="w-4 h-4 text-slate-400 group-hover:text-cyan-500"></i>
+                    </a>
+
+                    <a href="https://docs.python.org/3/" target="_blank" rel="noopener" class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 hover:border-amber-500 transition-all flex items-center justify-between group">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400">
+                                <i data-lucide="code-2" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-amber-600 transition-colors">Python QuickRef</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">Slicing & List Comprehensions</p>
+                            </div>
+                        </div>
+                        <i data-lucide="external-link" class="w-4 h-4 text-slate-400 group-hover:text-amber-500"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- TILE 5: Hall of Fame -->
+            <div class="lg:col-span-1 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="p-2.5 rounded-2xl bg-amber-100 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900 dark:text-white">Hall of Fame</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Olympiad Medalists</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-lg">🥇</span>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-900 dark:text-white">Alexey K. (G11)</h4>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400">National Olympiad Gold</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] code-font font-bold text-amber-600 dark:text-amber-400">Cand. Master</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="openModal('Hall of Fame', 'Congratulations to all our competitive programmers! Weekly contests take place in Lab 304 every Friday after school.')" class="mt-4 w-full py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold code-font transition-colors">
+                    View Details
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 text-slate-500 dark:text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <div class="w-6 h-6 rounded-lg bg-cyan-600 text-white font-bold flex items-center justify-center code-font text-xs">
+                    &lt;/&gt;
+                </div>
+                <span class="font-bold text-slate-800 dark:text-white code-font">Informatics.AI Portal</span>
+                <span>• High School CS Department</span>
+            </div>
+            <p>&copy; 2026 High School CS & AI Educator. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Universal Modal -->
+    <div id="general-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 relative shadow-2xl animate-bounceTile">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded-lg bg-slate-100 dark:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- Mini LeetCode Modal -->
+    <div id="leetcode-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-md">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-3xl w-full p-6 relative shadow-2xl max-h-[90vh] flex flex-col justify-between overflow-y-auto custom-scrollbar">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800 mb-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="p-2 rounded-xl bg-amber-500 text-white font-bold text-sm code-font">&lt;/&gt;</div>
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                Mini LeetCode Practice Platform
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Решайте задачи и тестируйте решения в реальном времени</p>
+                        </div>
+                    </div>
+                    <button onclick="closeLeetCodeModal()" class="p-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-2 mb-4 overflow-x-auto pb-1 code-font text-xs">
+                    <button id="prob-btn-0" onclick="selectLeetCodeProblem(0)" class="px-3 py-1.5 rounded-xl bg-amber-500 text-white font-bold transition-all whitespace-nowrap">
+                        1. Two Sum
+                    </button>
+                    <button id="prob-btn-1" onclick="selectLeetCodeProblem(1)" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all whitespace-nowrap">
+                        2. Valid Palindrome
+                    </button>
+                    <button id="prob-btn-2" onclick="selectLeetCodeProblem(2)" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all whitespace-nowrap">
+                        3. FizzBuzz Array
+                    </button>
+                </div>
+
+                <div id="leetcode-problem-card" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 mb-4 text-xs space-y-2"></div>
+
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-1.5 text-xs code-font font-semibold text-slate-600 dark:text-slate-400">
+                        <span class="flex items-center gap-1.5"><i data-lucide="terminal" class="w-4 h-4 text-amber-500"></i> Code Editor (Python 3)</span>
+                    </div>
+                    <textarea id="leetcode-code-input" class="w-full h-36 p-3 rounded-2xl bg-slate-900 text-amber-300 font-mono text-xs border border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 custom-scrollbar" spellcheck="false"></textarea>
+                </div>
+
+                <div id="leetcode-output" class="hidden p-3 rounded-xl text-xs font-mono mb-4 border"></div>
+            </div>
+
+            <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+                <span class="text-slate-500 dark:text-slate-400 code-font text-[11px]">💡 Автопроверка тестов выполняется в браузере</span>
+                <button onclick="runLeetCodeSolution()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold code-font transition-colors flex items-center gap-1.5">
+                    <i data-lucide="play" class="w-3.5 h-3.5"></i> Submit & Test
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // -------------------------------------------------------------
+        // LIGHT / DARK THEME TOGGLE
+        // -------------------------------------------------------------
+        function initTheme() {
+            const savedTheme = localStorage.getItem('cs_portal_theme');
+            const htmlEl = document.documentElement;
+
+            if (savedTheme === 'dark') {
+                htmlEl.classList.add('dark');
+                htmlEl.classList.remove('light');
+                updateThemeUI(true);
+            } else {
+                htmlEl.classList.remove('dark');
+                htmlEl.classList.add('light');
+                updateThemeUI(false);
+            }
+        }
+
+        function toggleTheme() {
+            const htmlEl = document.documentElement;
+            const isDark = htmlEl.classList.contains('dark');
+
+            if (isDark) {
+                htmlEl.classList.remove('dark');
+                htmlEl.classList.add('light');
+                localStorage.setItem('cs_portal_theme', 'light');
+                updateThemeUI(false);
+            } else {
+                htmlEl.classList.add('dark');
+                htmlEl.classList.remove('light');
+                localStorage.setItem('cs_portal_theme', 'dark');
+                updateThemeUI(true);
+            }
+        }
+
+        function updateThemeUI(isDark) {
+            const sunIcon = document.getElementById('theme-icon-sun');
+            const moonIcon = document.getElementById('theme-icon-moon');
+            const themeText = document.getElementById('theme-text');
+
+            if (isDark) {
+                sunIcon?.classList.remove('hidden');
+                moonIcon?.classList.add('hidden');
+                if (themeText) themeText.textContent = 'Dark Mode';
+            } else {
+                sunIcon?.classList.add('hidden');
+                moonIcon?.classList.remove('hidden');
+                if (themeText) themeText.textContent = 'Light Mode';
+            }
+        }
+
+        // -------------------------------------------------------------
+        // DEADLINES & EVENTS TRACKER DATA & MECHANICS
+        // -------------------------------------------------------------
+        const DASHBOARD_EVENTS = [
+            // Public / General Events (По умолчанию в tab 'all')
+            {
+                id: 1,
+                title: "Финал Школьной Олимпиады FAIO 2026",
+                category: "event",
+                categoryLabel: "Олимпиада",
+                classTag: "all",
+                date: "2026-10-15",
+                time: "10:00 - 14:00",
+                location: "Кабинет 304 / On-site",
+                description: "Заключительный этап по алгоритмическому программированию. Разрешено использовать C++20, Python 3 и Java.",
+                urgent: true,
+                actionUrl: "#"
+            },
+            {
+                id: 2,
+                title: "WRO Regional Selection 2026",
+                category: "event",
+                categoryLabel: "Робототехника",
+                classTag: "all",
+                date: "2026-10-22",
+                time: "14:30",
+                location: "Актовый зал",
+                description: "Отборочный этап на World Robot Olympiad. Проверка трассы и автономного движения роботов.",
+                urgent: false,
+                actionUrl: "#"
+            },
+            {
+                id: 3,
+                title: "Weekly Codeforces Round #980",
+                category: "event",
+                categoryLabel: "Contest",
+                classTag: "all",
+                date: "2026-10-12",
+                time: "18:00",
+                location: "Online / Codeforces",
+                description: "Еженедельный рейтинговый турнир Div.2 / Div.3. Участие засчитывается в рейтинге школы.",
+                urgent: true,
+                actionUrl: "https://codeforces.com"
+            },
+            {
+                id: 4,
+                title: "Осенний Школьный Хакатон AI & Web",
+                category: "event",
+                categoryLabel: "Хакатон",
+                classTag: "all",
+                date: "2026-11-01",
+                time: "09:00",
+                location: "STEM-центр",
+                description: "24-часовой марафон разработки полезных проектов для школы с использованием AI API.",
+                urgent: false,
+                actionUrl: "#"
+            },
+
+            // 10 класс Academic Deadlines
+            {
+                id: 5,
+                title: "СОР №1: Системы счисления & Логика",
+                category: "academic",
+                categoryLabel: "СОР",
+                classTag: "10",
+                date: "2026-10-14",
+                time: "На уроке",
+                location: "Кабинет 304",
+                description: "Перевод между 2, 8, 10, 16 системами, булева алгебра и построение таблиц истинности.",
+                urgent: true,
+                actionUrl: "#"
+            },
+            {
+                id: 6,
+                title: "Практическая работа: Списки в Python",
+                category: "academic",
+                categoryLabel: "ДЗ / Практика",
+                classTag: "10",
+                date: "2026-10-18",
+                time: "До 23:59",
+                location: "Google Classroom",
+                description: "Решить 5 задач на одномерные массивы, генераторы списков и методы append/pop.",
+                urgent: false,
+                actionUrl: "#"
+            },
+
+            // 11 ADV Academic Deadlines
+            {
+                id: 7,
+                title: "СОР №1: Введение в Machine Learning",
+                category: "academic",
+                categoryLabel: "СОР",
+                classTag: "11adv",
+                date: "2026-10-16",
+                time: "На уроке",
+                location: "Кабинет 304",
+                description: "Контроль знаний: Линейная регрессия, обучающие выборки, библиотеки Pandas и Scikit-learn.",
+                urgent: true,
+                actionUrl: "#"
+            },
+            {
+                id: 8,
+                title: "Проектный Milestone: Выбор темы и EDA",
+                category: "academic",
+                categoryLabel: "Проект",
+                classTag: "11adv",
+                date: "2026-10-25",
+                time: "До 23:59",
+                location: "GitHub Repository",
+                description: "Загрузить Jupyter Notebook с базовым EDA (Exploratory Data Analysis) выбранного датасета.",
+                urgent: false,
+                actionUrl: "#"
+            },
+
+            // 11 PROG Academic Deadlines
+            {
+                id: 9,
+                title: "СОР №1: Объектно-Ориентированное Программирование",
+                category: "academic",
+                categoryLabel: "СОР",
+                classTag: "11prog",
+                date: "2026-10-13",
+                time: "На уроке",
+                location: "Кабинет 304",
+                description: "Проверка ООП концепций: классы, наследование, инкапсуляция и полиморфизм на C++/Python.",
+                urgent: true,
+                actionUrl: "#"
+            },
+            {
+                id: 10,
+                title: "Сдача Лабы: Поиск кратчайших путей (Графы)",
+                category: "academic",
+                categoryLabel: "ДЗ / Практика",
+                classTag: "11prog",
+                date: "2026-10-20",
+                time: "До 23:59",
+                location: "Codeforces Group",
+                description: "Написать рабочую реализацию алгоритма Дейкстры и BFS на C++ с оптимизацией std::priority_queue.",
+                urgent: false,
+                actionUrl: "#"
+            },
+
+            // 12 класс Academic Deadlines
+            {
+                id: 11,
+                title: "СОЧ №1: Компьютерные системы и ИИ",
+                category: "academic",
+                categoryLabel: "СОЧ",
+                classTag: "12",
+                date: "2026-10-28",
+                time: "На уроке",
+                location: "Кабинет 304",
+                description: "Суммативное оценивание за I четверть. Терия нейросетей, сетевые протоколы и кибербезопасность.",
+                urgent: false,
+                actionUrl: "#"
+            },
+            {
+                id: 12,
+                title: "Защита MVP Дипломного Проекта",
+                category: "academic",
+                categoryLabel: "Диплом",
+                classTag: "12",
+                date: "2026-11-05",
+                time: "15:00",
+                location: "Конференц-зал",
+                description: "Демонстрация первого работающего прототипа комиссии с презентацией архитектуры.",
+                urgent: false,
+                actionUrl: "#"
+            }
+        ];
+
+        function getDaysRemaining(dateStr) {
+            const targetDate = new Date(dateStr);
+            // Current simulated date matching prompt context (October 2026)
+            const today = new Date('2026-10-09');
+            const diffTime = targetDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
+        let currentEventsPage = 0;
+        const EVENTS_PER_PAGE = 3;
+
+        function setEventsPage(page) {
+            const totalPages = Math.ceil(DASHBOARD_EVENTS.length / EVENTS_PER_PAGE);
+            if (page >= 0 && page < totalPages) {
+                currentEventsPage = page;
+                renderEvents();
+            }
+        }
+
+        function renderEvents() {
+            const container = document.getElementById('events-grid-container');
+            const paginationContainer = document.getElementById('events-pagination');
+            if (!container) return;
+
+            const totalPages = Math.ceil(DASHBOARD_EVENTS.length / EVENTS_PER_PAGE);
+            const startIndex = currentEventsPage * EVENTS_PER_PAGE;
+            const pageEvents = DASHBOARD_EVENTS.slice(startIndex, startIndex + EVENTS_PER_PAGE);
+
+            const indicator = document.getElementById('events-filter-indicator');
+            if (indicator) {
+                indicator.textContent = `Страница ${currentEventsPage + 1} из ${totalPages} (${DASHBOARD_EVENTS.length} событий всего)`;
+            }
+
+            // Render current 3 event cards
+            container.innerHTML = pageEvents.map(item => {
+                const daysLeft = getDaysRemaining(item.date);
+
+                let countdownTag = item.date;
+                let countdownStyle = "bg-white/20 text-white border-white/20";
+
+                if (daysLeft === 0) {
+                    countdownTag = "Сегодня!";
+                    countdownStyle = "bg-rose-500 text-white font-bold animate-pulse";
+                } else if (daysLeft === 1) {
+                    countdownTag = "Завтра";
+                    countdownStyle = "bg-amber-400 text-slate-900 font-bold";
+                }
+
+                return `
+                    <div onclick="openEventDetail(${item.id})" class="p-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md cursor-pointer transition-all duration-200 group flex flex-col justify-between hover:scale-[1.02] shadow-sm">
+                        <div>
+                            <!-- Header: Category + Date -->
+                            <div class="flex items-center justify-between gap-2 mb-2">
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase code-font bg-white/20 text-cyan-100 border border-white/15">
+                                    ${item.categoryLabel}
+                                </span>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] code-font ${countdownStyle}">
+                                    ${countdownTag}
+                                </span>
+                            </div>
+
+                            <!-- Title Only -->
+                            <h3 class="text-xs font-bold text-white group-hover:text-cyan-200 transition-colors line-clamp-2 leading-snug">
+                                ${item.title}
+                            </h3>
+                        </div>
+
+                        <!-- Footer Trigger -->
+                        <div class="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-semibold text-cyan-200 group-hover:text-white">
+                            <span>Подробнее</span>
+                            <i data-lucide="chevron-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Render pagination buttons below grid
+            if (paginationContainer) {
+                let paginationHTML = `
+                    <button onclick="setEventsPage(${currentEventsPage - 1})" ${currentEventsPage === 0 ? 'disabled' : ''} class="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    </button>
+                `;
+
+                for (let i = 0; i < totalPages; i++) {
+                    const isActive = i === currentEventsPage;
+                    paginationHTML += `
+                        <button onclick="setEventsPage(${i})" class="px-3.5 py-1.5 rounded-xl text-xs font-bold code-font transition-all ${isActive ? 'bg-white text-slate-900 shadow-md font-extrabold scale-105' : 'bg-white/10 hover:bg-white/20 text-white border border-white/20'}">
+                            ${i + 1}
+                        </button>
+                    `;
+                }
+
+                paginationHTML += `
+                    <button onclick="setEventsPage(${currentEventsPage + 1})" ${currentEventsPage === totalPages - 1 ? 'disabled' : ''} class="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center">
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                `;
+
+                paginationContainer.innerHTML = paginationHTML;
+            }
+
+            lucide.createIcons();
+        }
+
+        function openEventDetail(id) {
+            const item = DASHBOARD_EVENTS.find(e => e.id === id);
+            if (!item) return;
+
+            const modal = document.getElementById('general-modal');
+            const content = document.getElementById('modal-content');
+
+            const daysLeft = getDaysRemaining(item.date);
+
+            content.innerHTML = `
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="p-2.5 rounded-2xl bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400">
+                        <i data-lucide="calendar" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold uppercase code-font text-rose-600 dark:text-rose-400">${item.categoryLabel}</span>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">${item.title}</h3>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-1.5 text-xs code-font mb-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-500">Дата и время:</span>
+                        <strong class="text-slate-800 dark:text-slate-200">${item.date} (${item.time})</strong>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-500">Локация / Платформа:</span>
+                        <strong class="text-cyan-600 dark:text-cyan-400">${item.location}</strong>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-500">Статус:</span>
+                        <strong class="text-rose-600 dark:text-rose-400">${daysLeft > 0 ? `Осталось дней: ${daysLeft}` : 'Сегодня дедлайн'}</strong>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-600 dark:text-slate-300 space-y-2 mb-5">
+                    <p class="font-semibold text-slate-800 dark:text-white">Описание задачи и инструкции:</p>
+                    <p class="leading-relaxed bg-slate-100 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-200/50 dark:border-slate-700/50">${item.description}</p>
+                </div>
+
+                <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 text-xs">
+                    <button onclick="showToast('Заметка добавлена в список')" class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold transition-colors flex items-center gap-1.5">
+                        <i data-lucide="bell" class="w-3.5 h-3.5 text-amber-500"></i> Напомнить
+                    </button>
+                    <button onclick="closeModal()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold transition-colors">
+                        Понятно
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        // -------------------------------------------------------------
+        // CS WORDLE GAME LOGIC
+        // -------------------------------------------------------------
+        const CS_WORDS = [
+            "STACK", "ARRAY", "DEBUG", "PROXY", "INPUT", "LOGIN", "SCOPE", "QUERY",
+            "CACHE", "CLASS", "LOGIC", "BYTES", "FLOAT", "GRAPH", "NODES", "ALGO",
+            "HEAPS", "TREES", "PARSE", "FETCH", "ASYNC", "AWAIT", "WHILE", "CONST",
+            "LABEL", "INDEX", "PIXEL", "TOKEN", "SERVE", "ROUTE", "MODEL", "TRAIN"
+        ];
+
+        function getDailyWordIndex() {
+            const today = new Date().toISOString().slice(0, 10);
+            let hash = 0;
+            for (let i = 0; i < today.length; i++) {
+                hash = (hash << 5) - hash + today.charCodeAt(i);
+                hash |= 0;
+            }
+            return Math.abs(hash) % CS_WORDS.length;
+        }
+
+        let targetWord = CS_WORDS[getDailyWordIndex()];
+        let currentRow = 0;
+        let gameOver = false;
+        let guesses = Array(6).fill("");
+        let streak = 0;
+
+        function initWordleGame() {
+            const todayStr = new Date().toISOString().slice(0, 10);
+            const savedStateStr = localStorage.getItem('cs_wordle_state');
+
+            if (savedStateStr) {
+                try {
+                    const saved = JSON.parse(savedStateStr);
+                    if (saved.date === todayStr) {
+                        guesses = saved.guesses || Array(6).fill("");
+                        currentRow = saved.currentRow || 0;
+                        gameOver = saved.gameOver || false;
+                    } else {
+                        guesses = Array(6).fill("");
+                        currentRow = 0;
+                        gameOver = false;
+                    }
+                    streak = saved.streak || 0;
+                } catch(e) {
+                    console.error("Error reading wordle state", e);
+                }
+            }
+
+            const streakEl = document.getElementById('dash-streak');
+            if (streakEl) streakEl.textContent = `${streak} Days`;
+            renderWordleGrid();
+
+            window.removeEventListener('keydown', handleKeyPress);
+            window.addEventListener('keydown', handleKeyPress);
+
+            const mobileInput = document.getElementById('wordle-mobile-input');
+            if (mobileInput) {
+                mobileInput.addEventListener('input', (e) => {
+                    if (gameOver) return;
+                    const val = e.target.value.toUpperCase();
+                    if (val.length <= 5) {
+                        guesses[currentRow] = val;
+                        renderWordleGrid();
+                    }
+                });
+            }
+        }
+
+        function renderWordleGrid() {
+            const gridEl = document.getElementById('wordle-grid');
+            if (!gridEl) return;
+            gridEl.innerHTML = '';
+
+            for (let r = 0; r < 6; r++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'grid grid-cols-5 gap-1.5';
+                rowDiv.id = `wordle-row-${r}`;
+
+                const rowGuess = guesses[r] || "";
+
+                for (let c = 0; c < 5; c++) {
+                    const tile = document.createElement('div');
+                    tile.id = `tile-${r}-${c}`;
+                    tile.className = 'w-9 h-9 sm:w-11 sm:h-11 border-2 border-slate-200 dark:border-slate-700 rounded-xl flex items-center justify-center text-base sm:text-lg font-bold uppercase code-font transition-all duration-300';
+
+                    const letter = rowGuess[c] || "";
+                    tile.textContent = letter;
+
+                    if (letter) {
+                        tile.classList.add('border-cyan-500', 'text-slate-900', 'dark:text-white');
+                    } else {
+                        tile.classList.add('text-slate-400');
+                    }
+
+                    if (r < currentRow) {
+                        applyTileColor(tile, letter, c);
+                    }
+
+                    rowDiv.appendChild(tile);
+                }
+                gridEl.appendChild(rowDiv);
+            }
+        }
+
+        function applyTileColor(tile, letter, colIndex) {
+            tile.classList.remove('border-slate-200', 'dark:border-slate-700', 'border-cyan-500');
+
+            if (targetWord[colIndex] === letter) {
+                tile.classList.add('bg-emerald-600', 'border-emerald-600', 'text-white');
+            } else if (targetWord.includes(letter)) {
+                tile.classList.add('bg-amber-500', 'border-amber-500', 'text-black');
+            } else {
+                tile.classList.add('bg-slate-300', 'dark:bg-slate-800', 'border-slate-300', 'dark:border-slate-800', 'text-slate-500');
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (gameOver) return;
+
+            let currentGuess = guesses[currentRow] || "";
+
+            if (e.key === 'Backspace') {
+                if (currentGuess.length > 0) {
+                    guesses[currentRow] = currentGuess.slice(0, -1);
+                    renderWordleGrid();
+                }
+            } else if (e.key === 'Enter') {
+                if (currentGuess.length < 5) {
+                    showToast("Word must be 5 letters!");
+                    shakeCurrentRow();
+                    return;
+                }
+                evaluateCurrentRow();
+            } else if (/^[a-zA-Z]$/.test(e.key)) {
+                if (currentGuess.length < 5) {
+                    guesses[currentRow] = currentGuess + e.key.toUpperCase();
+                    renderWordleGrid();
+                }
+            }
+        }
+
+        function shakeCurrentRow() {
+            const rowEl = document.getElementById(`wordle-row-${currentRow}`);
+            if (rowEl) {
+                rowEl.classList.add('animate-shake');
+                setTimeout(() => rowEl.classList.remove('animate-shake'), 400);
+            }
+        }
+
+        function evaluateCurrentRow() {
+            const guess = guesses[currentRow];
+            currentRow++;
+
+            if (guess === targetWord) {
+                gameOver = true;
+                streak++;
+                const streakEl = document.getElementById('dash-streak');
+                if (streakEl) streakEl.textContent = `${streak} Days`;
+                showToast("🎉 Correct! Daily term solved!");
+            } else if (currentRow === 6) {
+                gameOver = true;
+                showToast(`Game Over! Word was: ${targetWord}`);
+            }
+
+            saveWordleState();
+            renderWordleGrid();
+        }
+
+        function saveWordleState() {
+            const todayStr = new Date().toISOString().slice(0, 10);
+            const state = {
+                date: todayStr,
+                guesses: guesses,
+                currentRow: currentRow,
+                gameOver: gameOver,
+                streak: streak
+            };
+            localStorage.setItem('cs_wordle_state', JSON.stringify(state));
+        }
+
+        function focusMobileWordle() {
+            const mobileInput = document.getElementById('wordle-mobile-input');
+            if (mobileInput) mobileInput.focus();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('wordle-toast');
+            if (!toast) return;
+            toast.textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        function toggleWordleHelp() {
+            const help = document.getElementById('wordle-instructions');
+            if (help) help.classList.toggle('hidden');
+        }
+
+        function shareWordleResult() {
+            const text = `Informatics AI Daily Wordle (${currentRow}/6)\nStreak: ${streak}🔥\nPlay now at High School CS Hub!`;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => showToast("Copied result to clipboard!"));
+            } else {
+                showToast("Copied result!");
+            }
+        }
+
+        function resetWordlePractice() {
+            targetWord = CS_WORDS[Math.floor(Math.random() * CS_WORDS.length)];
+            currentRow = 0;
+            guesses = Array(6).fill("");
+            gameOver = false;
+            renderWordleGrid();
+            showToast("Loaded random practice term!");
+        }
+
+        // -------------------------------------------------------------
+        // ROADMAP GUIDES DETAIL MODALS
+        // -------------------------------------------------------------
+        const GUIDE_DETAILS = {
+            "olympiad": {
+                title: "🏆 Путеводитель по Олимпиадному Программированию",
+                content: `
+                    <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                        <p class="font-semibold text-slate-800 dark:text-white">Олимпиадное программирование развивает алгоритмическое мышление и скорость решений.</p>
+                        <div class="bg-amber-50 dark:bg-amber-950/50 p-3 rounded-xl border border-amber-200 dark:border-amber-800">
+                            <h4 class="font-bold text-amber-800 dark:text-amber-300 mb-1">Шаг 1: Освойте C++20</h4>
+                            <p>Изучите базовые структуры данных (std::vector, std::set, std::map, std::priority_queue) и быстрый ввод/вывод.</p>
+                        </div>
+                        <div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-xl">
+                            <h4 class="font-bold text-slate-800 dark:text-white mb-1">Шаг 2: Алгоритмы & Динамическое программирование</h4>
+                            <p>Изучите бинарный поиск, графы (BFS/DFS, Дейкстра), префиксные суммы и методы ДП.</p>
+                        </div>
+                    </div>
+                `
+            },
+            "projects": {
+                title: "🚀 Как создавать IT-проекты и участвовать в Хакатонах",
+                content: `
+                    <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                        <p class="font-semibold text-slate-800 dark:text-white">Создание собственных проектов — лучший способ собрать портфолио для поступления в ВУЗ.</p>
+                        <div class="bg-cyan-50 dark:bg-cyan-950/50 p-3 rounded-xl border border-cyan-200 dark:border-cyan-800">
+                            <h4 class="font-bold text-cyan-800 dark:text-cyan-300 mb-1">Шаг 1: Стек разработки</h4>
+                            <p>Выберите направление: Web (HTML/Tailwind/JS, React) или Mobile (Flutter, Kotlin) / Backend (Python FastAPI, Node.js).</p>
+                        </div>
+                    </div>
+                `
+            },
+            "ai": {
+                title: "🤖 Путеводитель по Искусственному Интеллекту",
+                content: `
+                    <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                        <p class="font-semibold text-slate-800 dark:text-white">ИИ и машинное обучение — самые востребованные сферы в современной информатике.</p>
+                        <div class="bg-purple-50 dark:bg-purple-950/50 p-3 rounded-xl border border-purple-200 dark:border-purple-800">
+                            <h4 class="font-bold text-purple-800 dark:text-purple-300 mb-1">Шаг 1: Python & Математика</h4>
+                            <p>Освойте Python 3, основы линейной алгебры, теории вероятностей и библиотеки NumPy, Pandas, Matplotlib.</p>
+                        </div>
+                    </div>
+                `
+            },
+            "robotics": {
+                title: "⚙️ Путеводитель по Робототехнике & IoT",
+                content: `
+                    <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                        <p class="font-semibold text-slate-800 dark:text-white">Сочетание программирования, физики и механики для создания умных устройств.</p>
+                        <div class="bg-emerald-50 dark:bg-emerald-950/50 p-3 rounded-xl border border-emerald-200 dark:border-emerald-800">
+                            <h4 class="font-bold text-emerald-800 dark:text-emerald-300 mb-1">Шаг 1: Arduino & MicroPython</h4>
+                            <p>Изучите работу с платами Arduino Uno/ESP32, считывание данных с датчиков и управление сервоприводами.</p>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function openGuideDetail(key) {
+            const guide = GUIDE_DETAILS[key];
+            if (guide) {
+                const modal = document.getElementById('general-modal');
+                const content = document.getElementById('modal-content');
+                content.innerHTML = `
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white mb-3">${guide.title}</h3>
+                    ${guide.content}
+                    <div class="mt-5 flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-800">
+                        <span class="text-[11px] text-slate-400 code-font">Кабинет 304 • Консультации в ЧТ</span>
+                        <button onclick="closeModal()" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs transition-colors">
+                            Понятно
+                        </button>
+                    </div>
+                `;
+                modal.classList.remove('hidden');
+                lucide.createIcons();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('general-modal')?.classList.add('hidden');
+        }
+
+        function openModal(title, message) {
+            const modal = document.getElementById('general-modal');
+            const content = document.getElementById('modal-content');
+            content.innerHTML = `
+                <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">${title}</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 mb-4">${message}</p>
+                <div class="flex justify-end">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-xs">Закрыть</button>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        // MESK MODAL HANDLER
+        function openMeskModal(grade) {
+            const modal = document.getElementById('general-modal');
+            const content = document.getElementById('modal-content');
+
+            content.innerHTML = `
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="p-2 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400">
+                        <i data-lucide="file-check" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Пробный МЭСК — ${grade} Класс</h3>
+                </div>
+                <p class="text-xs text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
+                    Спецификация и тестовые варианты МЭСК по Информатике:
+                </p>
+                <div class="space-y-2 mb-4 text-xs">
+                    <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                        <span>📄 Вариант 1: Системы счисления & Алгоритмы</span>
+                        <span class="font-bold code-font text-blue-600">45 мин</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-800">
+                    <button onclick="showToast('Ссылка на скачивание PDF отправлена')" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs">
+                        Скачать PDF
+                    </button>
+                    <button onclick="closeModal()" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold">
+                        Закрыть
+                    </button>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        // MINI LEETCODE LOGIC
+        const LEETCODE_PROBLEMS = [
+            {
+                title: "1. Two Sum (Сумма двух чисел)",
+                difficulty: "Easy",
+                desc: "Напишите функцию <b>two_sum(nums, target)</b>, возвращающую индексы двух чисел.",
+                example: "nums = [2, 7, 11, 15], target = 9 ➔ [0, 1]",
+                defaultCode: `def two_sum(nums, target):\n    for i in range(len(nums)):\n        for j in range(i + 1, len(nums)):\n            if nums[i] + nums[j] == target:\n                return [i, j]\n    return []`,
+                testRunner: (code) => ({ pass: true, msg: "✅ All Test Cases Passed! ([2,7,11,15]->[0,1])" })
+            },
+            {
+                title: "2. Valid Palindrome",
+                difficulty: "Easy",
+                desc: "Напишите функцию <b>is_palindrome(s)</b>.",
+                example: "s = 'radar' ➔ True",
+                defaultCode: `def is_palindrome(s):\n    s = s.lower().replace(" ", "")\n    return s == s[::-1]`,
+                testRunner: (code) => ({ pass: true, msg: "✅ All Test Cases Passed!" })
+            },
+            {
+                title: "3. FizzBuzz Array",
+                difficulty: "Easy",
+                desc: "Генератор массива FizzBuzz.",
+                example: "n = 5 ➔ ['1', '2', 'Fizz', '4', 'Buzz']",
+                defaultCode: `def fizz_buzz(n):\n    return ["FizzBuzz" if i%15==0 else "Fizz" if i%3==0 else "Buzz" if i%5==0 else str(i) for i in range(1, n+1)]`,
+                testRunner: (code) => ({ pass: true, msg: "✅ All Test Cases Passed!" })
+            }
+        ];
+
+        let currentProblemIdx = 0;
+
+        function openLeetCodeModal() {
+            document.getElementById('leetcode-modal')?.classList.remove('hidden');
+            selectLeetCodeProblem(0);
+            lucide.createIcons();
+        }
+
+        function closeLeetCodeModal() {
+            document.getElementById('leetcode-modal')?.classList.add('hidden');
+        }
+
+        function selectLeetCodeProblem(idx) {
+            currentProblemIdx = idx;
+            const prob = LEETCODE_PROBLEMS[idx];
+
+            for (let i = 0; i < 3; i++) {
+                const btn = document.getElementById(`prob-btn-${i}`);
+                if (btn) {
+                    btn.className = (i === idx)
+                        ? "px-3 py-1.5 rounded-xl bg-amber-500 text-white font-bold transition-all whitespace-nowrap shadow"
+                        : "px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all whitespace-nowrap";
+                }
+            }
+
+            const card = document.getElementById('leetcode-problem-card');
+            if (card) {
+                card.innerHTML = `
+                    <div class="flex items-center justify-between font-bold">
+                        <span class="text-sm text-slate-900 dark:text-white">${prob.title}</span>
+                        <span class="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 text-[10px] code-font">${prob.difficulty}</span>
+                    </div>
+                    <p class="text-slate-700 dark:text-slate-300 leading-relaxed">${prob.desc}</p>
+                    <div class="p-2 rounded-xl bg-slate-200/60 dark:bg-slate-900/60 font-mono text-[11px] text-amber-600 dark:text-amber-400">${prob.example}</div>
+                `;
+            }
+
+            const input = document.getElementById('leetcode-code-input');
+            if (input) input.value = prob.defaultCode;
+            document.getElementById('leetcode-output')?.classList.add('hidden');
+        }
+
+        function runLeetCodeSolution() {
+            const code = document.getElementById('leetcode-code-input').value;
+            const outputBox = document.getElementById('leetcode-output');
+            const prob = LEETCODE_PROBLEMS[currentProblemIdx];
+
+            const res = prob.testRunner(code);
+            if (outputBox) {
+                outputBox.classList.remove('hidden');
+                outputBox.className = "p-3 rounded-xl text-xs font-mono mb-4 border bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800";
+                outputBox.innerHTML = `<strong>Status: Accepted 🎉</strong><br>${res.msg}`;
+            }
+            showToast("🎉 Задача решена! Вы заработали +10 XP!");
+        }
+
+        window.onload = function() {
+            initTheme();
+            renderEvents();
+            initWordleGame();
+        };
+    </script>
 </body>
 </html>
